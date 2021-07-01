@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Component
 @Slf4j
-@org.springframework.context.annotation.Profile("demo")  //only initialize sample data when demo profile is selected
+@org.springframework.context.annotation.Profile("default")  //only initialize sample data when demo profile is selected
 public class SampleDataInitializer implements ApplicationListener<ApplicationReadyEvent> {
 
     private final RecipeRepository recipeRepository;
@@ -61,7 +61,7 @@ public class SampleDataInitializer implements ApplicationListener<ApplicationRea
                             .flatMap(recipeRepository::save)
                 )
                 .map(Recipe::toString)
-                .subscribe(log::info);
+                .subscribe();
 
     }
 

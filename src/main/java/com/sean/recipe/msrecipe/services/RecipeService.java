@@ -26,8 +26,12 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public Flux<Recipe> all(){
+    public Flux<Recipe> findAll(){
         return this.recipeRepository.findAll();
+    }
+
+    public Mono<Recipe> findById(String id){
+        return this.recipeRepository.findById(id);
     }
 
     public Mono<Recipe> create(String title, boolean vegetarian, Integer serves, List<String> ingredients, String cookingInsructions){
@@ -38,18 +42,19 @@ public class RecipeService {
 
     }
 
-    public Mono<Recipe> update(String id, boolean vegetarian, Integer serves, List<String> ingredients, String cookingInsructions){
+    public Mono<Recipe> update(String id, String title, boolean isVegetarian, Integer serves, List<String> ingredients, String cookingInstructions){
 
         return this.recipeRepository
                 .findById(id)
                 .map(recipe -> new Recipe(
                         recipe.getId(),
-                        recipe.getTitle(),
+                        title,
                         recipe.getCreated(),
-                        recipe.isVegetarian(),
-                        recipe.getServes(),
-                        recipe.getIngredients(),
-                        recipe.getCookingInsructions()))
+                        isVegetarian,
+                        serves,
+                        ingredients,
+                        cookingInstructions)
+                )
                 .flatMap(this.recipeRepository::save);
 
     }

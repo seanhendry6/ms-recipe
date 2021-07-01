@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: ms-recipe
+  data:
+    mongodb:
+      database: recipedb

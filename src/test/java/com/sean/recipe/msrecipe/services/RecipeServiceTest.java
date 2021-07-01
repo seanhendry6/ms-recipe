@@ -33,7 +33,7 @@ public class RecipeServiceTest {
     }
 
     @Test
-    public void getAll(){
+    public void findAll(){
 
         Flux<Recipe> savedRecipes = recipeRepository.saveAll(Flux.just(
                 new Recipe(UUID.randomUUID().toString(),
@@ -55,7 +55,7 @@ public class RecipeServiceTest {
                                 "2 Step 2"),
                         "Some other instructions")));
 
-        Flux<Recipe> composite  = recipeService.all().thenMany(savedRecipes);
+        Flux<Recipe> composite  = recipeService.findAll().thenMany(savedRecipes);
 
         Predicate<Recipe> match = recipe -> savedRecipes.any(savedRecipe -> savedRecipe.equals(recipe)).block();
 
