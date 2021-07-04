@@ -20,6 +20,9 @@ Reactive WebFlux functional endpoint approach and thus the tests are making use 
 let me know if you would like to see the more classic approach as indicated of the 'when/then' Mockito process
 and I will be more than happy to include this as well.
 
+NOTE: I have included a Postman collection for testing the various CRUD endpoints located under the 'resources'
+folder titled 'Recipe.postman_collection.json' for your use.
+
 # DOCKER
 The docker-compose.yml contains the entrypoint already so this can simply be run as follows:
 > docker-compose build .
