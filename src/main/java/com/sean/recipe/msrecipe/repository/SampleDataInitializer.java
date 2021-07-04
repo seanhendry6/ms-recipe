@@ -13,7 +13,13 @@ import java.util.UUID;
 
 @Component
 @Slf4j
-@org.springframework.context.annotation.Profile("default")  //only initialize sample data when demo profile is selected
+@org.springframework.context.annotation.Profile("default")
+/*  The line above is not really needed as this profile will be run by default anyway;
+    I've left this here to illustrate that by changing it from 'default' to something else
+    the below config won't be executed and no data will be loaded without adding yourself
+ */
+
+
 public class SampleDataInitializer implements ApplicationListener<ApplicationReadyEvent> {
 
     private final RecipeRepository recipeRepository;

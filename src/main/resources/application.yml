@@ -3,4 +3,32 @@ spring:
     name: ms-recipe
   data:
     mongodb:
-      database: recipedb
+      host: localhost
+
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,threaddump
+      cors:
+        allowed-origins: "https://localhost:8080"
+        allowed-methods: "GET,POST,PUT,DELETE"
+      base-path: "/manage"
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+security:
+  require-ssl: true
+
+server:
+  ssl:
+    key-store-password: password
+    key-store: ./src/main/resources/ms-recipe-key.p12
+    key-store-type: PKCS12

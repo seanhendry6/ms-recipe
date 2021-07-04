@@ -1,0 +1,19 @@
+version: "3"
+services:
+  api-database:
+    image: mongo:3.2.4
+    container_name: "api-database"
+    ports:
+      - 27017
+  api:
+    image: api-docker-image
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    entrypoint: java -Djava.security.egd=file:/dev/./urandom -jar /opt/ms-recipe-0.0.1.jar
+    expose:
+      - 8080
+    links:
+      - api-database
+    volumes:
+      - /my/project/dir:/app

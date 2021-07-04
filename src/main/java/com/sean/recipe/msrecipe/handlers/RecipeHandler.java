@@ -2,6 +2,7 @@ package com.sean.recipe.msrecipe.handlers;
 
 import com.sean.recipe.msrecipe.entities.Recipe;
 import com.sean.recipe.msrecipe.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -10,8 +11,11 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.security.PublicKey;
 
+import static org.springframework.web.reactive.function.server.ServerResponse.notFound;
+
+@Slf4j
 @Component
 public class RecipeHandler {
 
@@ -21,11 +25,11 @@ public class RecipeHandler {
         this.recipeService = recipeService;
     }
 
-    public Mono<ServerResponse> findAll(ServerRequest request){
+    public Mono<ServerResponse> findAll(ServerRequest request) {
         return defaultReadResponse(recipeService.findAll());
     }
 
-    public Mono<ServerResponse> findById(ServerRequest request){
+    public Mono<ServerResponse> findById(ServerRequest request) {
 
         String id = request.pathVariable("id");
         Mono<Recipe> recipe = recipeService.findById(id);
@@ -34,7 +38,7 @@ public class RecipeHandler {
 
     }
 
-    public Mono<ServerResponse> create(ServerRequest request){
+    public Mono<ServerResponse> create(ServerRequest request) {
 
         Flux<Recipe> recipe = request
                 .bodyToFlux(Recipe.class)
@@ -49,7 +53,7 @@ public class RecipeHandler {
 
     }
 
-    public Mono<ServerResponse> updateById(ServerRequest request){
+    public Mono<ServerResponse> updateById(ServerRequest request) {
 
         String id = request.pathVariable("id");
 
@@ -66,32 +70,31 @@ public class RecipeHandler {
 
     }
 
-    public Mono<ServerResponse> deleteById(ServerRequest request){
+    public Mono<ServerResponse> deleteById(ServerRequest request) {
 
         String id = request.pathVariable("id");
         return defaultReadResponse(this.recipeService.delete(id));
 
     }
 
-    //SH - TODO = update responses (NB for update method)
-
-    private static Mono<ServerResponse> defaultReadResponse(Publisher<Recipe> recipes){
+    private static Mono<ServerResponse> defaultReadResponse(Publisher<Recipe> recipes) {
 
         return ServerResponse
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(recipes,Recipe.class);
+                .body(recipes, Recipe.class)
+                .switchIfEmpty(notFound().build());
 
     }
 
-    private static Mono<ServerResponse> defaultWriteResponse(Publisher<Recipe> recipes){
+    private static Mono<ServerResponse> defaultWriteResponse(Publisher<Recipe> recipe) {
 
         return Mono
-                .from(recipes)
+                .from(recipe)
                 .flatMap(r -> ServerResponse
                         .created(URI.create("/recipes/" + r.getId()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .build());
-
     }
+
 }
