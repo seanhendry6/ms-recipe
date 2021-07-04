@@ -1,11 +1,11 @@
-# ms-recipe
+# MS-RECIPE
 Created by Sean Hendry (2021) - ABN Amro Activity
 
-#OVERVIEW
+# Overview
 
 Spring Boot app with MongoDB, Unit tests for Functional endpoints; sample for non-functional testing (Mockito)
 
-#SECURITY/MONITORING
+# Security/Monitoring
 HTTPS - The HTTPS protocol is enforced in this solution (provided by a self-signed certificate included) therefore
 when you hit any endpoint please ensure you prefix it with 'https'
 
@@ -14,10 +14,7 @@ Actuator endpoints can be accessed through the '/managed' endpoint for e.g. http
     
 Prometheus - Prometheus scraping available and visible via /manage/prometheus (may take a second or 2 to start up)
 
-
-
-
-# TESTS
+# Tests
 The assignment requested the 'when/then' approach for the Unit Tests (Mockito) however I am currently using the
 Reactive WebFlux functional endpoint approach and thus the tests are making use of Flux/Mono & StepVerifier. Please
 let me know if you would like to see the more classic approach as indicated of the 'when/then' Mockito process
